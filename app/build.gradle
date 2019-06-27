@@ -21,8 +21,8 @@ android {
         applicationId "com.apps.szpansky.fiszkinainz"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 7
-        versionName "1.14"
+        versionCode 8
+        versionName "1.15"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
