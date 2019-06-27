@@ -18,8 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,7 +79,8 @@
                 android:layout_margin="8dp"
                 android:padding="5dp"
                 android:text="nic"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"
+                android:textIsSelectable="true" />
 
             <ImageView
                 android:id="@+id/question_image"
@@ -117,9 +117,9 @@
             app:fabSize="normal" />
 
         <LinearLayout
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:orientation="vertical">
 
             <EditText

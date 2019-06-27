@@ -13,18 +13,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkLoadingProvider implements LoadingProvider {
 
-    @Override
-    public void loadData(final CallBack callBack, int questionId) {
+    Retrofit retrofit;
+    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+    public NetworkLoadingProvider() {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.siteURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
+    }
+
+    @Override
+    public void loadData(final CallBack callBack, int questionId) {
 
         Api question = retrofit.create(Api.class);
 
