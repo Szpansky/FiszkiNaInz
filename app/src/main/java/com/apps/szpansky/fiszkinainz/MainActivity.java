@@ -64,11 +64,8 @@ public class MainActivity extends AppCompatActivity implements LoadingProvider.C
     }
 
     void loadData(final int questionId) {
-        progressBar.setVisibility(View.VISIBLE);
-        nestedScrollViewDataLayout.setVisibility(View.GONE);
         loadingProvider.loadData(this, questionId);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,42 +77,55 @@ public class MainActivity extends AppCompatActivity implements LoadingProvider.C
         adView = findViewById(R.id.adView);
         adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+        loadData(MySharedPreferences.getLastQuestionId(this));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        loadData(MySharedPreferences.getLastQuestionId(this));
-
         editTextQuestionID.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 loadData(Integer.parseInt(editTextQuestionID.getText().toString()));
-                return true;
+                return false;
             }
             return false;
         });
     }
 
     @Override
-    public void onSuccess(Question question) {
-        if (!question.getQuestion_image().isEmpty())
-            Glide.with(imageViewQuestionView).load(question.getQuestion_image()).into(imageViewQuestionView);
+    public void onFinallyLoading() {
+        progressBar.setVisibility(View.GONE);
+        nestedScrollViewDataLayout.setVisibility(View.VISIBLE);
+        nestedScrollViewDataLayout.scrollTo(0,0);
 
+        findViewById(R.id.dummy).requestFocus();
+
+    }
+
+    @Override
+    public void onSuccessLoading(Question question) {
+        try {
+            Glide.with(imageViewQuestionView).load(question.getQuestion_image()).into(imageViewQuestionView);
+        } catch (IllegalArgumentException e) {
+
+        }
         textViewTitle.setText(question.getTitle());
         textViewQuestion.setText(question.getQuestion());
         textViewAnswer.setText(question.getAnswer());
-        editTextQuestionID.setText(Integer.toString(question.getId()));
-        textViewQuestionCount.setText(Integer.toString(question.getQuestions_count()));
-        progressBar.setVisibility(View.GONE);
-        nestedScrollViewDataLayout.setVisibility(View.VISIBLE);
+        editTextQuestionID.setText(question.getId().toString());
+        textViewQuestionCount.setText(question.getQuestions_count().toString());
         MySharedPreferences.setLastQuestionId(getBaseContext(), question.getId());
     }
 
     @Override
-    public void onFailed(Throwable t) {
+    public void onFailedLoading(Throwable t) {
         Toast.makeText(getBaseContext(), "Coś nie poszło", Toast.LENGTH_SHORT).show();
-        progressBar.setVisibility(View.GONE);
-        nestedScrollViewDataLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStartLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        nestedScrollViewDataLayout.setVisibility(View.INVISIBLE);
     }
 }

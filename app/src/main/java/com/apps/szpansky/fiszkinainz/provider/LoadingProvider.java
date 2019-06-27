@@ -6,8 +6,12 @@ public interface LoadingProvider {
     void loadData(CallBack callBack, int questionId);
 
     interface CallBack{
-        void onSuccess(Question question);
+        void onSuccessLoading(Question question);
 
-        void onFailed(Throwable t);
+        void onFailedLoading(Throwable t);
+
+        void onStartLoading();
+
+        void onFinallyLoading();
     }
 }

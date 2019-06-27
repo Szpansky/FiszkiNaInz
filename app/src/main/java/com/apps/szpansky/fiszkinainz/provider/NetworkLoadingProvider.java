@@ -11,7 +11,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NetworkLoadingProvider implements LoadingProvider {
+public class NetworkLoadingProvider extends BaseLoadingProvider {
 
     Retrofit retrofit;
     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -29,6 +29,7 @@ public class NetworkLoadingProvider implements LoadingProvider {
 
     @Override
     public void loadData(final CallBack callBack, int questionId) {
+        super.loadData(callBack, questionId);
 
         Api question = retrofit.create(Api.class);
 
@@ -36,13 +37,15 @@ public class NetworkLoadingProvider implements LoadingProvider {
             @Override
             public void onResponse(Call<Structure> call, Response<Structure> response) {
                 if (response.isSuccessful()) {
-                    callBack.onSuccess(response.body().getQuestion());
+                    callBack.onSuccessLoading(response.body().getQuestion());
+                    callBack.onFinallyLoading();
                 }
             }
 
             @Override
             public void onFailure(Call<Structure> call, Throwable t) {
-                callBack.onFailed(t);
+                callBack.onFailedLoading(t);
+                callBack.onFinallyLoading();
             }
         });
 

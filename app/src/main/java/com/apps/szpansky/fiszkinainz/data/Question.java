@@ -1,18 +1,18 @@
 package com.apps.szpansky.fiszkinainz.data;
 
 public class Question {
-    private int id;
+    private Integer id;
     private String title;
     private String question;
     private String answer;
     private String question_image;
-    private int questions_count;
+    private Integer questions_count;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,11 +40,11 @@ public class Question {
         this.answer = answer;
     }
 
-    public int getQuestions_count() {
+    public Integer getQuestions_count() {
         return questions_count;
     }
 
-    public void setQuestions_count(int questions_count) {
+    public void setQuestions_count(Integer questions_count) {
         this.questions_count = questions_count;
     }
 

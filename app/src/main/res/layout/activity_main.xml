@@ -12,11 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:foregroundGravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="gone" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -30,17 +26,12 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/data_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/relativeLayout"
         android:layout_below="@+id/adView"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,25 +43,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="nic"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="nic"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/answer"
@@ -78,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:padding="5dp"
-                android:text="nic"
                 android:textAlignment="viewStart"
                 android:textIsSelectable="true" />
 
@@ -86,9 +67,7 @@
                 android:id="@+id/question_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
         </LinearLayout>
-
 
     </androidx.core.widget.NestedScrollView>
 
@@ -101,11 +80,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
+        android:padding="8dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/previous_question"
@@ -126,7 +101,6 @@
                 android:id="@+id/question_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:hint="Numer Pytania"
                 android:inputType="number"
                 android:textAlignment="center" />
@@ -139,7 +113,6 @@
                 android:text="0" />
         </LinearLayout>
 
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/next_question"
             android:layout_width="wrap_content"
@@ -149,8 +122,13 @@
             android:src="@drawable/baseline_arrow_forward_black_24"
             app:fabSize="normal" />
 
-
     </RelativeLayout>
-
-
+    <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
+    <LinearLayout
+        android:id="@+id/dummy"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:orientation="horizontal" />
 </RelativeLayout>
