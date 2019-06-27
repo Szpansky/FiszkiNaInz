@@ -21,8 +21,8 @@ android {
         applicationId "com.apps.szpansky.fiszkinainz"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 4
-        versionName "1.11"
+        versionCode 7
+        versionName "1.14"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -70,8 +70,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     //Google Ads
-    implementation 'com.google.android.gms:play-services-ads:18.0.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-ads:18.0.0'
+
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.crashlytics.sdk.android:crashlytics-ndk:2.1.0'

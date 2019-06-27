@@ -26,9 +26,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoadingProvider.CallBack {
 
-    LoadingProvider loadingProvider;
+    public AdRequest adRequest;
+
+    LoadingProvider loadingProvider = new NetworkLoadingProvider();
 
     @BindView(R.id.loading)
     ProgressBar progressBar;
@@ -64,48 +66,26 @@ public class MainActivity extends AppCompatActivity {
     void loadData(final int questionId) {
         progressBar.setVisibility(View.VISIBLE);
         nestedScrollViewDataLayout.setVisibility(View.GONE);
-
-        loadingProvider.loadData(new LoadingProvider.CallBack() {
-            @Override
-            public void onSuccess(Question question) {
-                if (!question.getQuestion_image().isEmpty())
-                    Glide.with(imageViewQuestionView).load(question.getQuestion_image()).into(imageViewQuestionView);
-
-                textViewTitle.setText(question.getTitle());
-                textViewQuestion.setText(question.getQuestion());
-                textViewAnswer.setText(question.getAnswer());
-                editTextQuestionID.setText(Integer.toString(question.getId()));
-                textViewQuestionCount.setText(Integer.toString(question.getQuestions_count()));
-                progressBar.setVisibility(View.GONE);
-                nestedScrollViewDataLayout.setVisibility(View.VISIBLE);
-                MySharedPreferences.setLastQuestionId(getBaseContext(), question.getId());
-            }
-
-            @Override
-            public void onFailed(Throwable t) {
-                Toast.makeText(getBaseContext(), "Coś nie poszło", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-                nestedScrollViewDataLayout.setVisibility(View.GONE);
-            }
-        }, questionId);
-
+        loadingProvider.loadData(this, questionId);
     }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        loadingProvider = new NetworkLoadingProvider();
-        int number = 1;
-        try {
-            number = MySharedPreferences.getLastQuestionId(this);
-        } catch (NullPointerException e) {
-            number = 1;
-        }
-        loadData(number);
+        adView = findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadData(MySharedPreferences.getLastQuestionId(this));
 
         editTextQuestionID.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -115,9 +95,27 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
 
-        adView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+    @Override
+    public void onSuccess(Question question) {
+        if (!question.getQuestion_image().isEmpty())
+            Glide.with(imageViewQuestionView).load(question.getQuestion_image()).into(imageViewQuestionView);
+
+        textViewTitle.setText(question.getTitle());
+        textViewQuestion.setText(question.getQuestion());
+        textViewAnswer.setText(question.getAnswer());
+        editTextQuestionID.setText(Integer.toString(question.getId()));
+        textViewQuestionCount.setText(Integer.toString(question.getQuestions_count()));
+        progressBar.setVisibility(View.GONE);
+        nestedScrollViewDataLayout.setVisibility(View.VISIBLE);
+        MySharedPreferences.setLastQuestionId(getBaseContext(), question.getId());
+    }
+
+    @Override
+    public void onFailed(Throwable t) {
+        Toast.makeText(getBaseContext(), "Coś nie poszło", Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.GONE);
+        nestedScrollViewDataLayout.setVisibility(View.GONE);
     }
 }
