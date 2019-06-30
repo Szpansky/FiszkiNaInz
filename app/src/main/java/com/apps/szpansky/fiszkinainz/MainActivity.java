@@ -86,7 +86,13 @@ public class MainActivity extends AppCompatActivity implements LoadingProvider.C
         editTextQuestionID.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                loadData(Integer.parseInt(editTextQuestionID.getText().toString()));
+                int number;
+                try {
+                    number = Integer.parseInt(editTextQuestionID.getText().toString());
+                } catch (NumberFormatException e) {
+                    number = 0;
+                }
+                loadData(number);
                 return false;
             }
             return false;
@@ -97,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements LoadingProvider.C
     public void onFinallyLoading() {
         progressBar.setVisibility(View.GONE);
         nestedScrollViewDataLayout.setVisibility(View.VISIBLE);
-        nestedScrollViewDataLayout.scrollTo(0,0);
+        nestedScrollViewDataLayout.scrollTo(0, 0);
 
         findViewById(R.id.dummy).requestFocus();
 
