@@ -1,6 +1,6 @@
 package com.apps.szpansky.fiszkinainz.provider;
 
-import com.apps.szpansky.fiszkinainz.Constant;
+import com.apps.szpansky.fiszkinainz.Constants;
 import com.apps.szpansky.fiszkinainz.data.Structure;
 
 import okhttp3.OkHttpClient;
@@ -21,7 +21,7 @@ public class NetworkLoadingProvider extends BaseLoadingProvider {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.siteURL)
+                .baseUrl(Constants.siteURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -33,7 +33,7 @@ public class NetworkLoadingProvider extends BaseLoadingProvider {
     public void loadData(final CallBack callBack, int questionId) {
         super.loadData(callBack, questionId);
 
-        question.structure(questionId, "tajne").enqueue(new Callback<Structure>() {
+        question.structure(questionId, Constants.sitePassword).enqueue(new Callback<Structure>() {
             @Override
             public void onResponse(Call<Structure> call, Response<Structure> response) {
                 if (response.isSuccessful()) {
